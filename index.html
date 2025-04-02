@@ -20,8 +20,16 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/interactive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Additional CSS -->
+    <link rel="stylesheet" href="css/components/skills-matrix.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
 </head>
-<body>
+<body data-theme="light">
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
     <header>
         <div class="container">
             <div class="profile">
@@ -294,28 +302,55 @@
             </div>
         </section>
 
+        <!-- Blog Section -->
+        <section id="blog" class="section">
+            <div class="container">
+                <h2 class="section-title">Technical Blog</h2>
+                <div class="blog-filters">
+                    <div class="search-box">
+                        <input type="text" id="blogSearch" placeholder="Search articles...">
+                    </div>
+                    <div class="category-filters" id="categoryFilters">
+                        <!-- Categories will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="blog-grid" id="blogPosts">
+                    <!-- Blog posts will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Enhanced Contact Form -->
         <section id="contact" class="section">
             <div class="container">
                 <h2 class="section-title">Contact Me</h2>
                 <div class="contact-form">
-                    <form id="contactForm">
+                    <form id="contactForm" class="enhanced-form">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name" required>
+                            <span class="validation-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" id="contactEmail" name="email" required>
+                            <span class="validation-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
                             <input type="text" id="subject" name="subject" required>
+                            <span class="validation-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="message">Message</label>
                             <textarea id="message" name="message" rows="5" required></textarea>
+                            <span class="validation-message"></span>
                         </div>
-                        <button type="submit" class="btn-submit">Send Message</button>
+                        <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+                        <button type="submit" class="btn-submit">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loading"><i class="fas fa-spinner fa-spin"></i></span>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -345,5 +380,26 @@
             });
         });
     </script>
+    
+    <!-- Additional Scripts -->
+    <script src="js/features/skillsMatrix.js"></script>
+    <script src="js/features/pdfGenerator.js"></script>
+    
+    <!-- Initialize new features -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize skills matrix
+            createSkillsMatrix();
+            
+            // Initialize PDF generator
+            initPDFGenerator();
+            
+            // Load blog posts
+            loadBlogPosts();
+        });
+    </script>
+    
+    <!-- Google Recaptcha -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
