@@ -24,6 +24,64 @@
     <!-- Additional CSS -->
     <link rel="stylesheet" href="css/components/skills-matrix.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+    
+    <style>
+        .pdf-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .pdf-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .loading-indicator {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .pdf-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 6px;
+            color: white;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .pdf-message.success {
+            background: #4caf50;
+        }
+        
+        .pdf-message.error {
+            background: #f44336;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
 </head>
 <body data-theme="light">
     <!-- Theme Toggle Button -->
@@ -325,32 +383,24 @@
             <div class="container">
                 <h2 class="section-title">Contact Me</h2>
                 <div class="contact-form">
-                    <form id="contactForm" class="enhanced-form">
+                    <form id="contactForm">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name" required>
-                            <span class="validation-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" id="contactEmail" name="email" required>
-                            <span class="validation-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
                             <input type="text" id="subject" name="subject" required>
-                            <span class="validation-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="message">Message</label>
                             <textarea id="message" name="message" rows="5" required></textarea>
-                            <span class="validation-message"></span>
                         </div>
-                        <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
-                        <button type="submit" class="btn-submit">
-                            <span class="btn-text">Send Message</span>
-                            <span class="btn-loading"><i class="fas fa-spinner fa-spin"></i></span>
-                        </button>
+                        <button type="submit" class="btn-submit">Send Message</button>
                     </form>
                 </div>
             </div>

@@ -7,7 +7,10 @@ const skillsData = {
         'Deep Learning': 80,
         'Python for AI': 90,
         'Vertex AI Studio': 85,
-        'OpenAI API': 90
+        'OpenAI API': 90,
+        'RAG Systems': 88,
+        'NLP': 85,
+        'Prompt Engineering': 92
     },
     'Cloud & DevOps': {
         'AWS': 90,
@@ -15,20 +18,47 @@ const skillsData = {
         'Google Cloud': 80,
         'Docker': 85,
         'Kubernetes': 75,
-        'CI/CD': 85
+        'CI/CD': 85,
+        'Terraform': 80,
+        'AWS Lambda': 88,
+        'Microservices': 85,
+        'Cloud Security': 82
     },
     'Programming & Databases': {
         'Python': 95,
         'JavaScript': 85,
         'SQL': 90,
         'NoSQL': 80,
-        'REST APIs': 90
+        'REST APIs': 90,
+        'GraphQL': 75,
+        'MongoDB': 85,
+        'PostgreSQL': 88,
+        'Redis': 80,
+        'ORM Tools': 85
     },
     'Regulatory & Finance': {
         'AxiomSL': 95,
         'COREP/FINREP': 90,
         'Basel Regulations': 85,
-        'Financial Reporting': 90
+        'Financial Reporting': 90,
+        'Risk Management': 88,
+        'Compliance': 92,
+        'KYC/AML': 85,
+        'MiFID II': 80,
+        'IFRS': 85,
+        'Regulatory Tech': 90
+    },
+    'Project Management & Tools': {
+        'Agile/Scrum': 90,
+        'JIRA': 88,
+        'Confluence': 85,
+        'Git': 90,
+        'Jenkins': 85,
+        'SAFe': 88,
+        'Risk Assessment': 85,
+        'Team Leadership': 90,
+        'Stakeholder Management': 88,
+        'Technical Documentation': 90
     }
 };
 
