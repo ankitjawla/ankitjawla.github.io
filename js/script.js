@@ -1,6 +1,19 @@
 // Main JavaScript file for Ankit Kumar Jawla's Resume Website
 
+// Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize smooth scrolling
+    initSmoothScrolling();
+    
+    // Initialize image loading animations
+    initImageLoading();
+    
+    // Initialize scroll animations
+    initScrollAnimations();
+    
+    // Initialize form handling
+    initFormHandling();
+    
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('nav a');
     
@@ -17,40 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-    
-    // Contact form submission handling
-    const contactForm = document.getElementById('contactForm');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('contactEmail').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            // In a real implementation, this would send data to a server
-            // For now, we'll just show a success message
-            
-            // Create success message
-            const successMessage = document.createElement('div');
-            successMessage.className = 'success-message';
-            successMessage.innerHTML = `
-                <h3>Thank you for your message, ${name}!</h3>
-                <p>I'll get back to you as soon as possible.</p>
-            `;
-            
-            // Replace form with success message
-            contactForm.innerHTML = '';
-            contactForm.appendChild(successMessage);
-            
-            // Style the success message
-            successMessage.style.textAlign = 'center';
-            successMessage.style.padding = '20px';
-            successMessage.style.color = '#2c3e50';
-        });
-    }
     
     // Add animation to timeline items
     const timelineItems = document.querySelectorAll('.timeline-item');
@@ -108,4 +87,143 @@ document.addEventListener('DOMContentLoaded', function() {
     if (aboutSection) {
         aboutSection.appendChild(printButton);
     }
+});
+
+// Smooth scrolling implementation
+function initSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}
+
+// Image loading animations
+function initImageLoading() {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+        if (img.complete) {
+            img.classList.add('loaded');
+        } else {
+            img.addEventListener('load', function() {
+                this.classList.add('loaded');
+            });
+        }
+    });
+}
+
+// Scroll animations
+function initScrollAnimations() {
+    const sections = document.querySelectorAll('.section');
+    
+    const observerOptions = {
+        root: null,
+        threshold: 0.1,
+        rootMargin: '0px'
+    };
+    
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    sections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'all 0.6s ease';
+        observer.observe(section);
+    });
+}
+
+// Form handling
+function initFormHandling() {
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            // Validate form
+            if (validateForm(data)) {
+                // Show success message
+                showFormMessage('Message sent successfully!', 'success');
+                form.reset();
+            }
+        });
+    }
+}
+
+// Form validation
+function validateForm(data) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!data.name || data.name.length < 2) {
+        showFormMessage('Please enter a valid name', 'error');
+        return false;
+    }
+    
+    if (!emailRegex.test(data.email)) {
+        showFormMessage('Please enter a valid email address', 'error');
+        return false;
+    }
+    
+    if (!data.message || data.message.length < 10) {
+        showFormMessage('Please enter a message (minimum 10 characters)', 'error');
+        return false;
+    }
+    
+    return true;
+}
+
+// Show form message
+function showFormMessage(message, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `form-message ${type}`;
+    messageDiv.textContent = message;
+    
+    const form = document.getElementById('contactForm');
+    form.appendChild(messageDiv);
+    
+    setTimeout(() => {
+        messageDiv.remove();
+    }, 3000);
+}
+
+// Update active navigation based on scroll position
+window.addEventListener('scroll', function() {
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a');
+    
+    let currentSection = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        
+        if (pageYOffset >= sectionTop - 60) {
+            currentSection = section.getAttribute('id');
+        }
+    });
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === currentSection) {
+            link.classList.add('active');
+        }
+    });
 });
