@@ -10,8 +10,8 @@
     box-sizing: border-box;
 }
 
+/* Theme Variables */
 :root {
-    /* Light Theme */
     --primary-color: #1a237e;
     --secondary-color: #0d47a1;
     --accent-color: #1565c0;
@@ -23,28 +23,14 @@
     --timeline-color: #1565c0;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     --transition: all 0.3s ease;
-}
-
-[data-theme="dark"] {
-    /* Dark Theme */
-    --primary-color: #5c6bc0;
-    --secondary-color: #3949ab;
-    --accent-color: #42a5f5;
-    --bg-color: #121212;
-    --surface-color: #1e1e1e;
-    --text-color: #e0e0e0;
-    --text-light: #bdbdbd;
-    --border-color: #424242;
-    --timeline-color: #42a5f5;
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
 body {
-    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.7;
     color: var(--text-color);
     background-color: var(--bg-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -452,32 +438,4 @@ footer {
 
 footer p {
     margin: 0;
-}
-
-/* Theme Toggle Button */
-.theme-toggle {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background: var(--surface-color);
-    border: 2px solid var(--border-color);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    z-index: 1000;
-    transition: all 0.3s ease;
-}
-
-.theme-toggle:hover {
-    transform: scale(1.1);
-}
-
-.theme-toggle i {
-    font-size: 1.5rem;
-    color: var(--text-color);
 }
