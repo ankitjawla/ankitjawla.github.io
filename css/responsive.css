@@ -27,17 +27,27 @@
     }
     
     header {
-        padding: 1rem 0;
+        padding: 1.5rem 0;
     }
     
     .profile {
         flex-direction: column;
         text-align: center;
-        gap: 1rem;
+        gap: 1.5rem;
     }
     
     .profile-content {
         align-items: center;
+    }
+    
+    .profile-content h1 {
+        font-size: 2rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .profile-content h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
     }
     
     .profile-details {
