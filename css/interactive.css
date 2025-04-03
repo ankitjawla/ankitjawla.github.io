@@ -1,15 +1,15 @@
 /* Additional styles for interactive elements */
 
-/* Timeline animation */
+/* Timeline animation - REMOVED */
 .timeline-item {
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 1;
+    transform: none;
+    transition: none;
 }
 
 .timeline-item.animate {
     opacity: 1;
-    transform: translateX(0);
+    transform: none;
 }
 
 /* Skill highlight effect */
