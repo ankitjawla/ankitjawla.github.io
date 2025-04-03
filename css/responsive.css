@@ -1,8 +1,11 @@
 /* Responsive Design Styles */
-@media screen and (max-width: 1024px) {
+@media (max-width: 1024px) {
     .container {
         width: 95%;
-        padding: 0 2rem;
+    }
+    
+    .profile-content h1 {
+        font-size: 2rem;
     }
     
     .skills-container {
@@ -10,7 +13,7 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
     h1 {
         font-size: 2rem;
     }
@@ -33,33 +36,16 @@
         gap: 1rem;
     }
     
-    .profile-pic {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .profile-content h1 {
-        font-size: 1.8rem;
-    }
-    
-    .profile-content h2 {
-        font-size: 1.1rem;
+    .profile-content {
+        align-items: center;
     }
     
     .profile-details {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.8rem;
+        justify-content: center;
     }
     
     nav ul {
-        flex-wrap: wrap;
         justify-content: center;
-        gap: 1rem;
-    }
-    
-    nav a {
-        font-size: 0.9rem;
     }
     
     .timeline::before {
@@ -79,9 +65,14 @@
     }
 }
 
-@media screen and (max-width: 576px) {
+@media (max-width: 576px) {
     .section {
         padding: 40px 0;
+    }
+    
+    .profile-pic {
+        width: 90px;
+        height: 90px;
     }
     
     .profile-content h1 {
@@ -89,23 +80,20 @@
     }
     
     .profile-content h2 {
-        font-size: 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .profile-details {
+        flex-direction: column;
+        gap: 0.6rem;
     }
     
     nav ul {
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
+        gap: 1rem;
     }
     
-    nav ul li {
-        width: 100%;
-        text-align: center;
-    }
-    
-    nav ul li a {
-        display: block;
-        padding: 8px;
+    nav a {
+        font-size: 0.85rem;
     }
     
     .timeline-content {
