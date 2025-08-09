@@ -122,4 +122,11 @@ function createSkillsMatrix() {
     document.querySelectorAll('.skill-category').forEach(category => {
         observer.observe(category);
     });
-} 
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        skillsData,
+        createSkillsMatrix
+    };
+}

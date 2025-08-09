@@ -25,7 +25,7 @@ async function generatePDF() {
         const content = document.body.cloneNode(true);
         
         // Remove unnecessary elements
-        const elementsToRemove = content.querySelectorAll('.theme-toggle, .pdf-button, .contact-form, nav');
+        const elementsToRemove = content.querySelectorAll('.theme-toggle, .pdf-button, .contact-form, nav, .pdf-button-existing');
         elementsToRemove.forEach(el => el.remove());
         
         // Configure PDF options
@@ -61,4 +61,13 @@ function showMessage(message, type) {
     setTimeout(() => {
         messageDiv.remove();
     }, 3000);
-} 
+}
+
+// Export functions for testing
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        initPDFGenerator,
+        generatePDF,
+        showMessage,
+    };
+}

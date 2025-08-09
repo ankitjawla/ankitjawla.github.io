@@ -164,18 +164,23 @@ function initFormHandling() {
 function validateForm(data) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
+    // Use module.exports.showFormMessage if available (for testing), otherwise global showFormMessage
+    const messageFunc = (typeof module !== 'undefined' && module.exports && module.exports.showFormMessage)
+                        ? module.exports.showFormMessage
+                        : showFormMessage;
+
     if (!data.name || data.name.length < 2) {
-        showFormMessage('Please enter a valid name', 'error');
+        messageFunc('Please enter a valid name', 'error');
         return false;
     }
     
     if (!emailRegex.test(data.email)) {
-        showFormMessage('Please enter a valid email address', 'error');
+        messageFunc('Please enter a valid email address', 'error');
         return false;
     }
     
     if (!data.message || data.message.length < 10) {
-        showFormMessage('Please enter a message (minimum 10 characters)', 'error');
+        messageFunc('Please enter a message (minimum 10 characters)', 'error');
         return false;
     }
     
@@ -189,11 +194,16 @@ function showFormMessage(message, type) {
     messageDiv.textContent = message;
     
     const form = document.getElementById('contactForm');
-    form.appendChild(messageDiv);
+    if (form) { // Check if form exists
+        form.appendChild(messageDiv);
     
-    setTimeout(() => {
-        messageDiv.remove();
-    }, 3000);
+        setTimeout(() => {
+            messageDiv.remove();
+        }, 3000);
+    } else {
+        // Optionally log an error or handle the case where the form is not found
+        // console.error("Contact form not found for showFormMessage");
+    }
 }
 
 // Update active navigation based on scroll position
@@ -250,4 +260,14 @@ function initThemeToggle() {
 function updateThemeIcon(theme) {
     const icon = document.querySelector('.theme-toggle i');
     icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+}
+
+// Export functions for testing if module system is available
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        validateForm,
+        showFormMessage
+        // Add other functions here if they need to be tested and are suitable for unit tests
+        // For now, only exporting validateForm and showFormMessage as per requirements.
+    };
 }
