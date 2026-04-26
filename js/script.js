@@ -266,8 +266,12 @@ function updateThemeIcon(theme) {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         validateForm,
-        showFormMessage
-        // Add other functions here if they need to be tested and are suitable for unit tests
-        // For now, only exporting validateForm and showFormMessage as per requirements.
+        showFormMessage,
+        initThemeToggle,
+        updateThemeIcon,
+        initFormHandling,
+        initSmoothScrolling,
+        initImageLoading,
+        initScrollAnimations,
     };
 }
