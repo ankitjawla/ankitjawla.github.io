@@ -442,4 +442,102 @@ describe('Main Script Tests', () => {
       expect(links[1].classList.contains('active')).toBe(true);
     });
   });
+
+  describe('DOMContentLoaded integration', () => {
+    let scrollIntoViewSpy;
+    let scrollToSpy;
+
+    beforeEach(() => {
+      document.body.innerHTML = `
+        <nav>
+          <a href="#about"></a>
+        </nav>
+        <ul class="skill-list">
+          <li>Skill A</li>
+        </ul>
+        <section id="about">
+          <div class="container"></div>
+        </section>
+        <div class="skills-container"></div>
+        <button class="theme-toggle"><i class="fas fa-moon"></i></button>
+        <a href="#about" id="anchor"></a>
+      `;
+      localStorage.clear();
+
+      window.matchMedia = jest.fn().mockImplementation(() => ({
+        matches: false,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      }));
+      global.IntersectionObserver = jest.fn(() => ({
+        observe: jest.fn(),
+        unobserve: jest.fn(),
+        disconnect: jest.fn(),
+      }));
+      scrollIntoViewSpy = jest.fn();
+      Element.prototype.scrollIntoView = scrollIntoViewSpy;
+      scrollToSpy = jest.fn();
+      window.scrollTo = scrollToSpy;
+      // The handler calls createSkillsMatrix() as a global — mirror the
+      // browser load order by exposing it before dispatching.
+      global.createSkillsMatrix = require('./features/skillsMatrix').createSkillsMatrix;
+    });
+
+    test('wires print button, theme, skills, hover, and nav', () => {
+      document.dispatchEvent(new Event('DOMContentLoaded'));
+
+      const printButton = document.querySelector('#about .container .print-button');
+      expect(printButton).not.toBeNull();
+      expect(printButton.innerHTML).toContain('Print Resume');
+
+      expect(document.body.getAttribute('data-theme')).toBe('light');
+      expect(document.querySelectorAll('.skill-category').length).toBeGreaterThan(0);
+
+      const skillItem = document.querySelector('.skill-list li');
+      skillItem.dispatchEvent(new Event('mouseenter'));
+      expect(skillItem.classList.contains('highlight')).toBe(true);
+      skillItem.dispatchEvent(new Event('mouseleave'));
+      expect(skillItem.classList.contains('highlight')).toBe(false);
+    });
+
+    test('nav link click scrolls and prevents default', () => {
+      const aboutSection = document.getElementById('about');
+      Object.defineProperty(aboutSection, 'offsetTop', { value: 800, configurable: true });
+
+      document.dispatchEvent(new Event('DOMContentLoaded'));
+
+      const navLink = document.querySelector('nav a');
+      const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+      navLink.dispatchEvent(clickEvent);
+
+      expect(clickEvent.defaultPrevented).toBe(true);
+      expect(scrollToSpy).toHaveBeenCalledWith({ top: 730, behavior: 'smooth' });
+    });
+
+    test('print button click invokes window.print', () => {
+      document.dispatchEvent(new Event('DOMContentLoaded'));
+      const originalPrint = window.print;
+      window.print = jest.fn();
+      try {
+        document.querySelector('#about .container .print-button').click();
+        expect(window.print).toHaveBeenCalledTimes(1);
+      } finally {
+        window.print = originalPrint;
+      }
+    });
+
+    test('inline anchor[href^="#"] handler triggers smooth scrollIntoView', () => {
+      document.dispatchEvent(new Event('DOMContentLoaded'));
+      scrollIntoViewSpy.mockClear();
+
+      const anchor = document.getElementById('anchor');
+      const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+      anchor.dispatchEvent(clickEvent);
+
+      expect(clickEvent.defaultPrevented).toBe(true);
+      // Two listeners are bound on a[href^="#"] — one from initSmoothScrolling
+      // (block: 'start'), one from the inline DOMContentLoaded loop.
+      expect(scrollIntoViewSpy).toHaveBeenCalled();
+    });
+  });
 });

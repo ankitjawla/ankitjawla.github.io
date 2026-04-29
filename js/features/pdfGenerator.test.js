@@ -68,6 +68,12 @@ describe('PDF Generator', () => {
       expect(aboutContainer.contains(button)).toBe(true);
     });
 
+    test('should not throw and not append when #about .container is absent', () => {
+      document.body.innerHTML = '';
+      expect(() => initPDFGenerator()).not.toThrow();
+      expect(document.querySelector('.pdf-button')).toBeNull();
+    });
+
     // Simplified this test to be synchronous and not use fake timers to avoid timeouts.
     // It checks that the click initiates generatePDF (via html2pdf mock calls)
     // and that showMessage is called (by checking for the message div).
