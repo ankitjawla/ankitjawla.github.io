@@ -161,6 +161,25 @@ describe('Skills Matrix', () => {
     });
   });
 
+  describe('skillsData integrity', () => {
+    test('every proficiency value is a number in [0, 100]', () => {
+      Object.entries(skillsData).forEach(([category, skills]) => {
+        Object.entries(skills).forEach(([skill, proficiency]) => {
+          expect(typeof proficiency).toBe('number');
+          expect(Number.isFinite(proficiency)).toBe(true);
+          expect(proficiency).toBeGreaterThanOrEqual(0);
+          expect(proficiency).toBeLessThanOrEqual(100);
+        });
+      });
+    });
+
+    test('every category has at least one skill', () => {
+      Object.entries(skillsData).forEach(([category, skills]) => {
+        expect(Object.keys(skills).length).toBeGreaterThan(0);
+      });
+    });
+  });
+
   test('should handle multiple entries in intersectionCallback', () => {
     createSkillsMatrix();
     expect(intersectionCallback).toBeDefined();
